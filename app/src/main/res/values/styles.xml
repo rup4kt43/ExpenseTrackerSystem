@@ -33,4 +33,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@color/whiteColor</item>
+    </style>
+
 </resources>

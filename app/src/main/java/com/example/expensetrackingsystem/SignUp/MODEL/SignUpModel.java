@@ -38,11 +38,11 @@ public class SignUpModel {
         DatabaseReference ref_useremail = ref_userDetail.child(String.valueOf(phone));
 
         //Refrencing to the node of username (child of email) and setting the value
-        DatabaseReference ref_username = ref_useremail.child("USER NAME");
+        DatabaseReference ref_username = ref_useremail.child("userName");
         ref_username.setValue(username);
 
         //Refrencing to the node of userphone (child of email) and setting the value
-        DatabaseReference ref_email = ref_useremail.child("USER EMAIL");
+        DatabaseReference ref_email = ref_useremail.child("userEmail");
         ref_email.setValue(email);
 
 

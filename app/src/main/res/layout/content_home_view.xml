@@ -32,6 +32,7 @@
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cv_plan_a_trip"
 
                 android:layout_width="0dp"
                 android:layout_height="130dp"
@@ -75,6 +76,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cv_friendRequest"
                 android:layout_width="0dp"
                 android:layout_height="130dp"
                 android:layout_margin="10dp"
