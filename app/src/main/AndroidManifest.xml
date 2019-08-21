@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlanATrip.VIEW.PlanATripView"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".MyTripDetails.VIEW.MyTripDetailsView"></activity>
+        <activity android:name=".MyTrip.VIEW.MyTripView" />
+        <activity
+            android:name=".PlanATrip.VIEW.PlanATripView"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Home.VIEW.HomeView"
             android:label="@string/title_activity_home_view"

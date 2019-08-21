@@ -105,7 +105,7 @@ public class PlanATripView extends AppCompatActivity implements PlanATripInterfa
                 temp_date = i2 + "-" + (i1 + 1) + "-" + i;
 
 
-                //Simple logic to alter onDate Change listener
+                //Simple logic to alter onDate Change listener-->actually should be called from presenter
 
                 if (count == 0) {
                     sDate.setText(temp_date);

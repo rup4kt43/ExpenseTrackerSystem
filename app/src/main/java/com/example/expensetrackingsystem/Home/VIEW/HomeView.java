@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.expensetrackingsystem.Home.INTERFACES.HomeInterface;
 import com.example.expensetrackingsystem.Home.PRESENTER.HomePresenter;
+import com.example.expensetrackingsystem.MyTrip.VIEW.MyTripView;
 import com.example.expensetrackingsystem.PlanATrip.VIEW.PlanATripView;
 import com.example.expensetrackingsystem.R;
 import com.example.expensetrackingsystem.Utilities.Global;
@@ -100,7 +101,9 @@ public class HomeView extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_myTrip) {
+
+            startActivity(new Intent(HomeView.this, MyTripView.class));
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
