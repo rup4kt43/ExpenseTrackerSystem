@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +18,7 @@ import com.example.expensetrackingsystem.Home.PRESENTER.HomePresenter;
 import com.example.expensetrackingsystem.MyTrip.VIEW.MyTripView;
 import com.example.expensetrackingsystem.PlanATrip.VIEW.PlanATripView;
 import com.example.expensetrackingsystem.R;
-import com.example.expensetrackingsystem.Utilities.Global;
+import com.example.expensetrackingsystem.TripRequest.VIEW.TripRequestView;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeView extends AppCompatActivity
@@ -105,7 +104,8 @@ public class HomeView extends AppCompatActivity
 
             startActivity(new Intent(HomeView.this, MyTripView.class));
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_request) {
+            startActivity(new Intent(HomeView.this, TripRequestView.class));
 
         } else if (id == R.id.nav_slideshow) {
 

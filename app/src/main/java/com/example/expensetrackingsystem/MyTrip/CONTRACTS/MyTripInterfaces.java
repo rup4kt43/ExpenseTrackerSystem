@@ -18,11 +18,16 @@ public interface MyTripInterfaces {
         void retriveMyTripInfo();
         void addMemberToMyTrip(String time, ArrayList<MemberDetailsDTO> memberDetailsArray);
 
+        void loadFriendsTrip();
     }
 
 
     interface presenterModelCallBack {
         void tripDetails(ArrayList<MyTripDTO> myTripDetails);
 
+    }
+
+    interface checkFriendPresenterModelCallback{
+        void friendsTrip(ArrayList<MemberDetailsDTO> memberArray,ArrayList<MyTripDTO> myTrip);
     }
 }

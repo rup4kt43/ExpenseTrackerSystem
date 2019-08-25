@@ -1,5 +1,7 @@
 package com.example.expensetrackingsystem.MyTrip.PRESENTER;
 
+import android.util.Log;
+
 import com.example.expensetrackingsystem.MyTrip.CONTRACTS.MyTripInterfaces;
 import com.example.expensetrackingsystem.MyTrip.DTO.MemberDetailsDTO;
 import com.example.expensetrackingsystem.MyTrip.DTO.MyTripDTO;
@@ -32,5 +34,17 @@ public class MyTripPresenter implements MyTripInterfaces.presenter {
     @Override
     public void addMemberToMyTrip(String time, ArrayList<MemberDetailsDTO> memberDetailsArray) {
         model.addMemberToMyTrip(time,memberDetailsArray);
+    }
+
+    @Override
+    public void loadFriendsTrip() {
+        model.loadFriendsTrip(new MyTripInterfaces.checkFriendPresenterModelCallback() {
+            @Override
+            public void friendsTrip(ArrayList<MemberDetailsDTO> memberArray, ArrayList<MyTripDTO> myTrip) {
+                Log.e("myTrip",myTrip.get(0).getLocationFrom());
+                Log.e("myTrip",myTrip.get(0).getLocationFrom());
+                view.loadMyTrip(myTrip);
+            }
+        });
     }
 }

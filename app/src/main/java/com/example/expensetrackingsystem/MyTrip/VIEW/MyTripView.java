@@ -2,6 +2,7 @@ package com.example.expensetrackingsystem.MyTrip.VIEW;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mytrip);
+
 
         getSupportActionBar().setTitle("My Trip");
 
@@ -86,11 +88,31 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.accepted_trip_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            MyTripView.this.finish();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                MyTripView.this.finish();
+                break;
+            case R.id.action_my_trip:
+                presenter.loadFriendsTrip();
+                break;
+            case R.id.action_friends_trip:
+                loadFriendsTrip();
+                break;
+            default:
+                return true;
         }
         return true;
+    }
+
+    private void loadFriendsTrip() {
+        presenter.loadFriendsTrip();
     }
 
     public void switchToMyTripDetails(String locFrom, String locTo, String dateFrom, String dateTo, String time) {

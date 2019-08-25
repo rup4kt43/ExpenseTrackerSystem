@@ -22,6 +22,8 @@ import com.example.expensetrackingsystem.MyTrip.DTO.MyTripDTO;
 import com.example.expensetrackingsystem.MyTrip.VIEW.MyTripView;
 import com.example.expensetrackingsystem.MyTripDetails.VIEW.MyTripDetailsView;
 import com.example.expensetrackingsystem.R;
+import com.example.expensetrackingsystem.Utilities.Global;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
@@ -132,15 +134,20 @@ public class MyTripCustomAdapter extends RecyclerView.Adapter {
                 String name = personName.getText().toString();
                 String phone = personPhone.getText().toString();
 
+
+
                 if (name.isEmpty() || phone.isEmpty()) {
                     Toast.makeText(context, "Field cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
-                    MemberDetailsDTO memberDetailsDTO = new MemberDetailsDTO();
+                    DatabaseReference userDetail = Global.mDatabase.child("USER DETAIL").child(phone).child("Request");
+                   userDetail.child(Global.userPhone).setValue(myTripDetails.get(pos).getTime());
+
+                   /* MemberDetailsDTO memberDetailsDTO = new MemberDetailsDTO();
                     memberDetailsDTO.setPersonName(name);
                     memberDetailsDTO.setPersonPhone(phone);
                     memberDetailsArray.add(memberDetailsDTO);
                     personName.setText("");
-                    personPhone.setText("");
+                    personPhone.setText("");*/
                 }
             }
         });

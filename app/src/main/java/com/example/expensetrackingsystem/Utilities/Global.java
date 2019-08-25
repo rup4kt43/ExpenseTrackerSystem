@@ -1,8 +1,11 @@
 package com.example.expensetrackingsystem.Utilities;
 
+import com.example.expensetrackingsystem.TripRequest.DTO.TripRequestDTO;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class Global {
 
@@ -15,6 +18,8 @@ public class Global {
 
     public static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+    public static ArrayList<TripRequestDTO> tripReqArray = new ArrayList<>();
 
 
 }

@@ -1,7 +1,10 @@
 package com.example.expensetrackingsystem.MyTripDetails.MODEL;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.example.expensetrackingsystem.MyTripDetails.DTO.ExpensesDTO;
 import com.example.expensetrackingsystem.MyTripDetails.DTO.MyTripDetailsDTO;
 import com.example.expensetrackingsystem.MyTripDetails.INTERFACES.MyTripDetailsInterfaces;
 import com.example.expensetrackingsystem.Utilities.Global;
@@ -40,5 +43,48 @@ public class MyTripDetailsModel {
             }
         });
 
+    }
+
+    public void saveNewExpense(ArrayList<ExpensesDTO> addExpenseArray, String time) {
+        Log.e("TIme", time);
+        Log.e("userphone", Global.userPhone);
+        DatabaseReference expenseRef = Global.mDatabase.child("TRIP LIST").child(Global.userPhone).child(time).child("Expenses")
+                .child(Global.userName);
+
+
+        for (int i = 0; i < addExpenseArray.size(); i++) {
+            DatabaseReference expenseNameRef = expenseRef.child(addExpenseArray.get(i).getExpenseName());
+            expenseNameRef.setValue(addExpenseArray.get(i).getExpenseAmount());
+
+        }
+    }
+
+    public void retriveMyExpense(String time, final MyTripDetailsInterfaces.dialogPresenterModelCallback callback) {
+        DatabaseReference expenseRef =  Global.mDatabase.child("TRIP LIST").child(Global.userPhone).child(time).child("Expenses")
+                .child(Global.userName);
+        final ArrayList<ExpensesDTO> myExpenseArray = new ArrayList<>();
+
+
+
+        expenseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot child: dataSnapshot.getChildren()){
+                    ExpensesDTO expensesDTO = new ExpensesDTO();
+                    String expenseName = child.getKey();
+                    String expenseAmount = (String) child.getValue();
+                    expensesDTO.setExpenseName(expenseName);
+                    expensesDTO.setExpenseAmount(expenseAmount);
+                    myExpenseArray.add(expensesDTO);
+
+                }
+                callback.myExpenseArray(myExpenseArray);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

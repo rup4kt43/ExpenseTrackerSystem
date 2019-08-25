@@ -55,4 +55,20 @@ public class MyTripModel {
             myTripReference.child(memberDetailsArray.get(i).getPersonName()).setValue(memberDetailsArray.get(i).getPersonPhone());
         }
     }
+
+    public void loadFriendsTrip(final MyTripInterfaces.checkFriendPresenterModelCallback callback) {
+        final ArrayList<MyTripDTO> arrayMyTrip = new ArrayList<>();
+        for(int i= 0 ;i<Global.tripReqArray.size();i++){
+            String number = Global.tripReqArray.get(i).getRequestFromNumber();
+            final String date = Global.tripReqArray.get(i).getTripDate();
+
+            DatabaseReference dbRef = Global.mDatabase.child("TRIP LIST")
+                    .child(number)
+                    .child(date);
+
+                //AlreadySort out loop now just add to myTripDTO !!!
+        }
+
+
+    }
 }
