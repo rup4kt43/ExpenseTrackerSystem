@@ -40,6 +40,9 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
     private RecyclerView recyclerView;
     LinearLayout emptyLayout;
     ArrayList<ExpensesDTO> addExpenseArray;
+    String expenseDialogTitle;
+
+    public static int expenseFlag = 0;
     String time;
     private ArrayList<ExpensesDTO> expenseArray;
 
@@ -100,7 +103,7 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
 
     @Override
     public void loadMemberList(ArrayList<MyTripDetailsDTO> memberList) {
-        tv_memCount.setText(String.valueOf(memberList.size() + 1));
+        tv_memCount.setText(String.valueOf(memberList.size()));
 
         if (!memberList.isEmpty()) {
             recyclerView.setVisibility(View.VISIBLE);
@@ -123,8 +126,19 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
     }
 
     @Override
-    public void loadMyExpenses(ArrayList<ExpensesDTO> myExpense) {
+    public void loadMyExpenses(ArrayList<ExpensesDTO> myExpense, String personName) {
+        this.expenseDialogTitle = personName;
         this.expenseArray = myExpense;
+    }
+
+    @Override
+    public void loadMyFriendExpense(ArrayList<ExpensesDTO> myExpenses, String personName) {
+
+        this.expenseArray = myExpenses;
+        if (expenseFlag == 0) {
+            createMyExpenseCustomDialog(personName);
+        }
+
     }
 
 
@@ -142,7 +156,9 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
                 break;
             case R.id.action_my_expense:
                 Toast.makeText(this, "my epense clicked", Toast.LENGTH_SHORT).show();
-                createMyExpenseCustomDialog();
+                if (expenseFlag == 0) {
+                    createMyExpenseCustomDialog(expenseDialogTitle);
+                }
                 break;
             default:
                 return true;
@@ -150,11 +166,17 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
         return true;
     }
 
-    private void createMyExpenseCustomDialog() {
+    private void createMyExpenseCustomDialog(String personName) {
+        expenseFlag = 1;
         double total_price = 0.0;
+
 
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.myexpense_custom_dialog);
+        TextView name = dialog.findViewById(R.id.tv_name);
+        name.setText(expenseDialogTitle);
+
+        dialog.setCancelable(false);
 
         //Refrencing the widgets
         ImageView cross = dialog.findViewById(R.id.iv_cross);
@@ -179,6 +201,7 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                expenseFlag = 0;
             }
         });
 
@@ -190,6 +213,7 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
         /*lp.height = (int) (d.getHeight() * 0.7);*/
 
         dialog.show();
+
     }
 
 
@@ -230,8 +254,10 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
 
                     //if not empty saving it in database
                     presenter.saveNewExpenseToFirebase(addExpenseArray, time);
-                    retriveMyExpense();
+                    // retriveMyExpense();
                     dialog.dismiss();
+                    expenseFlag = 0;
+
                 }
             }
         });
@@ -257,5 +283,11 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mytripdetails_menu, menu);
         return true;
+    }
+
+    public void loadFriendExpense(String personName) {
+        this.expenseDialogTitle = personName;
+        presenter.loadFriendExpense(personName);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.expensetrackingsystem.TripRequest.ADAPTER;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,9 @@ public class TripRequestAdapter extends RecyclerView.Adapter {
             btn_apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    Log.e("USERNAME", Global.userName);
+                    Log.e("USERNAME", Global.userName);
                     int pos = getAdapterPosition();
                     DatabaseReference databaseReference = Global.mDatabase.child("TRIP LIST")
                             .child(array.get(pos).getRequestFromNumber())
@@ -62,6 +66,11 @@ public class TripRequestAdapter extends RecyclerView.Adapter {
                             .child("Members")
                             .child(Global.userPhone);
                     databaseReference.setValue(Global.userName);
+
+                    DatabaseReference acceptedReference = Global.mDatabase.child("USER DETAIL").child(Global.userPhone).child("Accepted Request");
+
+                    acceptedReference.child(array.get(pos).getRequestFromNumber()).setValue(array.get(pos).getTripDate());
+
 
                     DatabaseReference db = Global.mDatabase.child("USER DETAIL").child(Global.userPhone).child("Request");
                     db.removeValue();

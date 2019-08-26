@@ -1,11 +1,13 @@
 package com.example.expensetrackingsystem.MyTripDetails.ADAPTERS;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetrackingsystem.MyTripDetails.DTO.MyTripDetailsDTO;
@@ -18,6 +20,7 @@ public class MyTripDetailsAdapter extends RecyclerView.Adapter {
     private final MyTripDetailsView context;
     private final ArrayList<MyTripDetailsDTO> list;
     private TextView name, phone;
+    private CardView cardView;
 
     public MyTripDetailsAdapter(MyTripDetailsView myTripDetailsView, ArrayList<MyTripDetailsDTO> memberList) {
         this.context = myTripDetailsView;
@@ -47,6 +50,16 @@ public class MyTripDetailsAdapter extends RecyclerView.Adapter {
             super(view);
             name = view.findViewById(R.id.tv_rv_username);
             phone = view.findViewById(R.id.tv_rv_phone);
+            cardView = view.findViewById(R.id.cv_friendsList);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    Log.e("phone",list.get(pos).getPersonName());
+                    Log.e("name",list.get(pos).getPersonName());
+                    context.loadFriendExpense(list.get(pos).getPersonName());
+                }
+            });
 
         }
     }

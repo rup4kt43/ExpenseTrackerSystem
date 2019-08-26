@@ -12,8 +12,9 @@ public interface MyTripDetailsInterfaces {
         
         void showToast(String msg);
 
-        void loadMyExpenses(ArrayList<ExpensesDTO> myExpense);
+        void loadMyExpenses(ArrayList<ExpensesDTO> myExpense,String personName);
 
+        void loadMyFriendExpense(ArrayList<ExpensesDTO> myExpenses,String personName);
     }
 
     interface presenter {
@@ -33,7 +34,7 @@ public interface MyTripDetailsInterfaces {
     }
 
     interface dialogPresenterModelCallback{
-        void myExpenseArray(ArrayList<ExpensesDTO> myExpenses);
+        void myExpenseArray(ArrayList<ExpensesDTO> myExpenses,String name);
     }
 
 

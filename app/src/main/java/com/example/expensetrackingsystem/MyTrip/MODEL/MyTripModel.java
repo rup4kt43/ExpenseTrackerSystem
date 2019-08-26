@@ -1,5 +1,7 @@
 package com.example.expensetrackingsystem.MyTrip.MODEL;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.expensetrackingsystem.MyTrip.CONTRACTS.MyTripInterfaces;
@@ -14,12 +16,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MyTripModel {
+    final ArrayList<MyTripDTO> arrayList = new ArrayList<>();
+
     public void retriveMyTripInfo(final MyTripInterfaces.presenterModelCallBack callBack) {
+        arrayList.clear();
         DatabaseReference tripList = Global.mDatabase.child("TRIP LIST");
         tripList.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot keyPhone : dataSnapshot.getChildren()) {
+
                     String num = keyPhone.getKey();
                     if (Global.userPhone.matches(num)) {
                         ArrayList<MyTripDTO> arrayList = new ArrayList<>();
@@ -38,8 +44,11 @@ public class MyTripModel {
                                 e.printStackTrace();
                             }
                         }
+                    } else {
+                        callBack.tripDetails(arrayList);
                     }
                 }
+
             }
 
             @Override
@@ -57,17 +66,68 @@ public class MyTripModel {
     }
 
     public void loadFriendsTrip(final MyTripInterfaces.checkFriendPresenterModelCallback callback) {
-        final ArrayList<MyTripDTO> arrayMyTrip = new ArrayList<>();
-        for(int i= 0 ;i<Global.tripReqArray.size();i++){
-            String number = Global.tripReqArray.get(i).getRequestFromNumber();
-            final String date = Global.tripReqArray.get(i).getTripDate();
+        arrayList.clear();
 
-            DatabaseReference dbRef = Global.mDatabase.child("TRIP LIST")
-                    .child(number)
-                    .child(date);
+        Log.e("Phone", Global.userPhone);
 
-                //AlreadySort out loop now just add to myTripDTO !!!
-        }
+        DatabaseReference acceptedRef = Global.mDatabase.child("USER DETAIL").child(Global.userPhone).child("Accepted Request");
+        acceptedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() != 0) {
+                    for (DataSnapshot detail : dataSnapshot.getChildren()) {
+
+
+                        String numKey = detail.getKey();
+                        Global.friendTripUserPhone = numKey;
+                        String dateKey = detail.getValue().toString();
+
+                        Log.e("dateKey ", dateKey);
+                        Log.e("dateKey ", dateKey);
+
+                        DatabaseReference tripDetails = Global.mDatabase.child("TRIP LIST")
+                                .child(numKey)
+                                .child(dateKey);
+                        tripDetails.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    String time = dataSnapshot.getKey();
+                                    String locFrom = (String) dataSnapshot.child("Location From").getValue();
+                                    Log.e("MyTrip", locFrom);
+                                    String locTo = dataSnapshot.child("Location To").getValue().toString();
+                                    String dateFrom = dataSnapshot.child("From Date").getValue().toString();
+                                    String dateTo = dataSnapshot.child("To Date").getValue().toString();
+                                    MyTripDTO myTripDTO = new MyTripDTO();
+                                    myTripDTO.setToDate(dateTo);
+                                    myTripDTO.setFromDate(dateFrom);
+                                    myTripDTO.setLocationTo(locTo);
+                                    myTripDTO.setLocationFrom(locFrom);
+                                    myTripDTO.setTime(time);
+                                    arrayList.add(myTripDTO);
+                                    callback.friendsTrip(arrayList);
+                                }
+
+
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+
+                } else {
+                    callback.friendsTrip(arrayList);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
     }

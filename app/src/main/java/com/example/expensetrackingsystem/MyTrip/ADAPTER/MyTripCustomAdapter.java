@@ -91,6 +91,8 @@ public class MyTripCustomAdapter extends RecyclerView.Adapter {
                     String dateFrom = myTripDetails.get(pos).getFromDate();
                     String dateTo = myTripDetails.get(pos).getToDate();
                     String time = myTripDetails.get(pos).getTime();
+                    Global.cardSelectedDate = time;
+
 
                     context.switchToMyTripDetails(locFrom,locTo,dateFrom,dateTo,time);
 

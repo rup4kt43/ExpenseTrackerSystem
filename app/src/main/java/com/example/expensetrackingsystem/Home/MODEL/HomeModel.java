@@ -11,30 +11,47 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 public class HomeModel {
+
     public void retriveUserDetail() {
         DatabaseReference userDetailRef = Global.mDatabase.child("USER DETAIL");
+
 
         userDetailRef.addValueEventListener(new ValueEventListener() {  //for looping
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot phone : dataSnapshot.getChildren()) {       //children --> phone number
                     String num = phone.getKey();    //get phone number
-                    for (DataSnapshot detail : phone.getChildren()) {   //get detail
+                    Log.e("phojne",num);
+                    for (DataSnapshot detail : phone.getChildren()) {  //get detail
+
+
                         if (detail.getKey().matches("userEmail")) {
                             String email = (String) detail.getValue();
                             if (email.matches(Global.userEmail)) {
                                 Global.userPhone = num;       // setting the phone number to global vairable userphone
 
+                                DatabaseReference databaseReference = Global.mDatabase.child("USER DETAIL").child(Global.userPhone);
+                                databaseReference.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for(DataSnapshot detail:dataSnapshot.getChildren()){
+                                            if(detail.getKey().matches("userName")){
+                                                Global.userName = detail.getValue().toString();
+
+                                                Log.e("Username",Global.userName);
+                                                Log.e("Username",Global.userName);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         }
-                        if (detail.getKey().matches("userName")) {
-                            String name = (String) detail.getValue();
-                             Global.userName = name;
 
-
-
-
-                        }
 
                     }
                 }

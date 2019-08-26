@@ -29,6 +29,9 @@ public class PlanATripModel {
         DatabaseReference toDate = time.child("To Date");         //child node of respective number
         toDate.setValue(endDate);       // saving the value to To date node
 
+        DatabaseReference self = time.child("Members").child(Global.userPhone);
+        self.setValue(Global.userName);
+
 
     }
 }

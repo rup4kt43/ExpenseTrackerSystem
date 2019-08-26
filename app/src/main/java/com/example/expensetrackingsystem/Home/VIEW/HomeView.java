@@ -2,6 +2,7 @@ package com.example.expensetrackingsystem.Home.VIEW;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.expensetrackingsystem.MyTrip.VIEW.MyTripView;
 import com.example.expensetrackingsystem.PlanATrip.VIEW.PlanATripView;
 import com.example.expensetrackingsystem.R;
 import com.example.expensetrackingsystem.TripRequest.VIEW.TripRequestView;
+import com.example.expensetrackingsystem.Utilities.Global;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeView extends AppCompatActivity
@@ -31,6 +33,8 @@ public class HomeView extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+
 
       /*  friendReq = findViewById(R.id.cv_friendRequest);
         friendReq.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +64,8 @@ public class HomeView extends AppCompatActivity
         //Initiating presenter object
         presenter = new HomePresenter(this);
         presenter.retriveUserDetail();
+
+
     }
 
     @Override

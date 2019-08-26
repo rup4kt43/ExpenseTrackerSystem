@@ -2,6 +2,7 @@ package com.example.expensetrackingsystem.MyTrip.CONTRACTS;
 
 import com.example.expensetrackingsystem.MyTrip.DTO.MemberDetailsDTO;
 import com.example.expensetrackingsystem.MyTrip.DTO.MyTripDTO;
+import com.example.expensetrackingsystem.MyTrip.DTO.NumAndTimeDTO;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,6 @@ public interface MyTripInterfaces {
     }
 
     interface checkFriendPresenterModelCallback{
-        void friendsTrip(ArrayList<MemberDetailsDTO> memberArray,ArrayList<MyTripDTO> myTrip);
+        void friendsTrip(ArrayList<MyTripDTO> myTrip);
     }
 }

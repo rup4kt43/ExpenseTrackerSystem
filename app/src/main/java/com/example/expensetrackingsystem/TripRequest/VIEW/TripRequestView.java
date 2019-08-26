@@ -34,6 +34,9 @@ public class TripRequestView extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         retriveRequest();
 
+        Log.e("USERNAME",Global.userName);
+        Log.e("USERNAME",Global.userName);
+
 
     }
 

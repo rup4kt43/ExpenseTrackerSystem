@@ -52,10 +52,21 @@ public class MyTripDetailsPresenter implements MyTripDetailsInterfaces.presenter
     public void retriveMyExpense(String time) {
         model.retriveMyExpense(time, new MyTripDetailsInterfaces.dialogPresenterModelCallback() {
             @Override
-            public void myExpenseArray(ArrayList<ExpensesDTO> myExpenses) {
-                view.loadMyExpenses(myExpenses);
+            public void myExpenseArray(ArrayList<ExpensesDTO> myExpenses,String personName) {
+                view.loadMyExpenses(myExpenses, personName);
             }
         });
 
+    }
+
+    public void loadFriendExpense(String personName) {
+        model.loadFriendExpense(personName, new MyTripDetailsInterfaces.dialogPresenterModelCallback() {
+            @Override
+            public void myExpenseArray(ArrayList<ExpensesDTO> myExpenses,String personName) {
+                view.loadMyFriendExpense(myExpenses,personName);
+
+
+            }
+        });
     }
 }

@@ -33,16 +33,15 @@ public class MyTripPresenter implements MyTripInterfaces.presenter {
 
     @Override
     public void addMemberToMyTrip(String time, ArrayList<MemberDetailsDTO> memberDetailsArray) {
-        model.addMemberToMyTrip(time,memberDetailsArray);
+        model.addMemberToMyTrip(time, memberDetailsArray);
     }
 
     @Override
     public void loadFriendsTrip() {
         model.loadFriendsTrip(new MyTripInterfaces.checkFriendPresenterModelCallback() {
             @Override
-            public void friendsTrip(ArrayList<MemberDetailsDTO> memberArray, ArrayList<MyTripDTO> myTrip) {
-                Log.e("myTrip",myTrip.get(0).getLocationFrom());
-                Log.e("myTrip",myTrip.get(0).getLocationFrom());
+            public void friendsTrip(ArrayList<MyTripDTO> myTrip) {
+
                 view.loadMyTrip(myTrip);
             }
         });

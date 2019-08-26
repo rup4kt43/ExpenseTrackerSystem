@@ -2,6 +2,7 @@ package com.example.expensetrackingsystem.MyTrip.VIEW;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.expensetrackingsystem.MyTrip.DTO.MyTripDTO;
 import com.example.expensetrackingsystem.MyTrip.PRESENTER.MyTripPresenter;
 import com.example.expensetrackingsystem.MyTripDetails.VIEW.MyTripDetailsView;
 import com.example.expensetrackingsystem.R;
+import com.example.expensetrackingsystem.Utilities.Global;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,9 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mytrip);
+
+        Log.e("phone",Global.userPhone);
+        Log.e("phone",Global.userPhone);
 
 
         getSupportActionBar().setTitle("My Trip");
@@ -57,6 +62,7 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
 
     @Override
     public void loadMyTrip(ArrayList<MyTripDTO> tripDetails) {
+        Log.e("TripDetails", String.valueOf(tripDetails.size()));
         if (!tripDetails.isEmpty()) {
             emptyLayout.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
@@ -65,6 +71,7 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
         } else {
             emptyLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+
         }
 
 
@@ -100,9 +107,11 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
                 MyTripView.this.finish();
                 break;
             case R.id.action_my_trip:
-                presenter.loadFriendsTrip();
+                Global.tripSelection=0;
+                presenter.retriveMyTripInfo();
                 break;
             case R.id.action_friends_trip:
+                Global.tripSelection =1;        //assigning 1 since checking friendsTrip
                 loadFriendsTrip();
                 break;
             default:
