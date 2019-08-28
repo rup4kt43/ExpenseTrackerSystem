@@ -25,6 +25,8 @@ public class MyTripPresenter implements MyTripInterfaces.presenter {
         model.retriveMyTripInfo(new MyTripInterfaces.presenterModelCallBack() {
             @Override
             public void tripDetails(ArrayList<MyTripDTO> myTripDetails) {
+
+                Log.e("Trip Size", String.valueOf(myTripDetails.size()));
                 view.loadMyTrip(myTripDetails);
             }
         });

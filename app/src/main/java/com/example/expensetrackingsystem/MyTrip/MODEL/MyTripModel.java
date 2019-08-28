@@ -39,12 +39,11 @@ public class MyTripModel {
                                 myTripDTO.setTime(time.getKey().toString());
                                 myTripDTO.setLocationTo(time.child("Location To").getValue().toString());
                                 arrayList.add(myTripDTO);       //ADDING mytrip dto object which has set properties into arraylist
-                                callBack.tripDetails(arrayList);//sending the arraylist to presenter through callback
+                               //sending the arraylist to presenter through callback
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                    } else {
                         callBack.tripDetails(arrayList);
                     }
                 }
