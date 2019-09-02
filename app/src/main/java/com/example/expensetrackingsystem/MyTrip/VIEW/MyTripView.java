@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,10 @@ import com.example.expensetrackingsystem.MyTrip.PRESENTER.MyTripPresenter;
 import com.example.expensetrackingsystem.MyTripDetails.VIEW.MyTripDetailsView;
 import com.example.expensetrackingsystem.R;
 import com.example.expensetrackingsystem.Utilities.Global;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -30,14 +35,40 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
     RecyclerView recyclerView;
     MyTripCustomAdapter myTripCustomAdapter;
     LinearLayout emptyLayout;
+    String date;
+    int selectedPos = 256;
+    public static int isFriend = 0;
+    private ArrayList<MyTripDTO> tripDetails;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mytrip);
 
-        Log.e("phone",Global.userPhone);
-        Log.e("phone",Global.userPhone);
+
+        //Firebase Call
+        DatabaseReference ref = Global.mDatabase.child("SelectedTrip").child(Global.userPhone);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 0) {
+
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        date = ds.getValue().toString().replace("+", "");
+                        Log.e("Date", date);
+                        Log.e("Date", date);
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         getSupportActionBar().setTitle("My Trip");
@@ -58,15 +89,36 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
         recyclerView = findViewById(R.id.rv_myTrip);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
     }
 
     @Override
     public void loadMyTrip(ArrayList<MyTripDTO> tripDetails) {
+
         Log.e("TripDetails", String.valueOf(tripDetails.size()));
         if (!tripDetails.isEmpty()) {
             emptyLayout.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            myTripCustomAdapter = new MyTripCustomAdapter(this, tripDetails);
+
+
+            if (date != null) {
+                for (int i = 0; i < tripDetails.size(); i++) {
+                    String temp = tripDetails.get(i).getTime().replace("+", "");
+
+
+                    if (date.matches(temp)) {
+                        selectedPos = i;
+                        Log.e("SLEC", String.valueOf(selectedPos));
+                    }
+                }
+            } else {
+                Toast.makeText(this, "No currently selected trip", Toast.LENGTH_SHORT).show();
+            }
+
+
+            myTripCustomAdapter = new MyTripCustomAdapter(this, tripDetails, selectedPos);
+
+
             setAdapter();
         } else {
             emptyLayout.setVisibility(View.VISIBLE);
@@ -86,6 +138,8 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
 
     private void setAdapter() {
         recyclerView.setAdapter(myTripCustomAdapter);
+
+
     }
 
     @Override
@@ -107,11 +161,11 @@ public class MyTripView extends AppCompatActivity implements MyTripInterfaces.vi
                 MyTripView.this.finish();
                 break;
             case R.id.action_my_trip:
-                Global.tripSelection=0;
+                Global.tripSelection = 0;
                 presenter.retriveMyTripInfo();
                 break;
             case R.id.action_friends_trip:
-                Global.tripSelection =1;        //assigning 1 since checking friendsTrip
+                Global.tripSelection = 1;        //assigning 1 since checking friendsTrip
                 loadFriendsTrip();
                 break;
             default:

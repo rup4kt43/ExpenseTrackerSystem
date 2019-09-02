@@ -50,7 +50,7 @@
                 android:drawableLeft="@drawable/ic_person"
                 android:drawablePadding="20dp"
                 android:hint="USER EMAIL"
-                android:text="rup4kt43@gmail.com"
+                android:text="shraddha@gmail.com"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="20dp" />
 

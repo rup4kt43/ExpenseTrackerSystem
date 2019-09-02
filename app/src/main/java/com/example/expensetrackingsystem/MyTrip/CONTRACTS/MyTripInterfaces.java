@@ -17,6 +17,7 @@ public interface MyTripInterfaces {
     interface presenter {
 
         void retriveMyTripInfo();
+
         void addMemberToMyTrip(String time, ArrayList<MemberDetailsDTO> memberDetailsArray);
 
         void loadFriendsTrip();
@@ -28,7 +29,7 @@ public interface MyTripInterfaces {
 
     }
 
-    interface checkFriendPresenterModelCallback{
+    interface checkFriendPresenterModelCallback {
         void friendsTrip(ArrayList<MyTripDTO> myTrip);
     }
 }

@@ -30,6 +30,7 @@ public class LoginPresenter implements LoginInterface.presenter {
                 @Override
                 public void onError(String msg) {
                     view.showToast(msg);
+                    view.dismissProgress();
                 }
             });
         }

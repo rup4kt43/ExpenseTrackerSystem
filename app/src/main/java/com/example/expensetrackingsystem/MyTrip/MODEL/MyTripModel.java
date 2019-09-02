@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.expensetrackingsystem.MyTrip.CONTRACTS.MyTripInterfaces;
 import com.example.expensetrackingsystem.MyTrip.DTO.MemberDetailsDTO;
 import com.example.expensetrackingsystem.MyTrip.DTO.MyTripDTO;
+import com.example.expensetrackingsystem.MyTrip.VIEW.MyTripView;
 import com.example.expensetrackingsystem.Utilities.Global;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,11 +20,12 @@ public class MyTripModel {
     final ArrayList<MyTripDTO> arrayList = new ArrayList<>();
 
     public void retriveMyTripInfo(final MyTripInterfaces.presenterModelCallBack callBack) {
-        arrayList.clear();
+
         DatabaseReference tripList = Global.mDatabase.child("TRIP LIST");
         tripList.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
                 for (DataSnapshot keyPhone : dataSnapshot.getChildren()) {
 
                     String num = keyPhone.getKey();
@@ -74,6 +76,7 @@ public class MyTripModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getChildrenCount() != 0) {
+                    MyTripView.isFriend =1 ;
                     for (DataSnapshot detail : dataSnapshot.getChildren()) {
 
 
@@ -90,10 +93,9 @@ public class MyTripModel {
                         tripDetails.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                                if (dataSnapshot.getChildrenCount() > 0) {
                                     String time = dataSnapshot.getKey();
                                     String locFrom = (String) dataSnapshot.child("Location From").getValue();
-                                    Log.e("MyTrip", locFrom);
                                     String locTo = dataSnapshot.child("Location To").getValue().toString();
                                     String dateFrom = dataSnapshot.child("From Date").getValue().toString();
                                     String dateTo = dataSnapshot.child("To Date").getValue().toString();
@@ -105,7 +107,10 @@ public class MyTripModel {
                                     myTripDTO.setTime(time);
                                     arrayList.add(myTripDTO);
                                     callback.friendsTrip(arrayList);
+                                }else {
+                                    callback.friendsTrip(arrayList);
                                 }
+                            }
 
 
 

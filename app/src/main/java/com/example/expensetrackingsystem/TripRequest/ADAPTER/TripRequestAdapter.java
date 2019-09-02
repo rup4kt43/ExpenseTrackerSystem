@@ -1,5 +1,6 @@
 package com.example.expensetrackingsystem.TripRequest.ADAPTER;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +57,9 @@ public class TripRequestAdapter extends RecyclerView.Adapter {
             btn_apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    btn_apply.setBackgroundColor(Color.RED);
+                    btn_apply.setEnabled(false);
+                    btn_apply.setText("ACCEPTED");
                     Log.e("USERNAME", Global.userName);
                     Log.e("USERNAME", Global.userName);
                     int pos = getAdapterPosition();
@@ -67,6 +70,9 @@ public class TripRequestAdapter extends RecyclerView.Adapter {
                             .child(Global.userPhone);
                     databaseReference.setValue(Global.userName);
 
+
+
+
                     DatabaseReference acceptedReference = Global.mDatabase.child("USER DETAIL").child(Global.userPhone).child("Accepted Request");
 
                     acceptedReference.child(array.get(pos).getRequestFromNumber()).setValue(array.get(pos).getTripDate());
@@ -74,6 +80,8 @@ public class TripRequestAdapter extends RecyclerView.Adapter {
 
                     DatabaseReference db = Global.mDatabase.child("USER DETAIL").child(Global.userPhone).child("Request");
                     db.removeValue();
+
+
 
                 }
             });
