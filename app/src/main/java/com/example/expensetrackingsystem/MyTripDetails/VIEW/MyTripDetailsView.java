@@ -30,6 +30,8 @@ import com.example.expensetrackingsystem.MyTripDetails.INTERFACES.MyTripDetailsI
 import com.example.expensetrackingsystem.MyTripDetails.PRESENTER.MyTripDetailsPresenter;
 import com.example.expensetrackingsystem.R;
 import com.example.expensetrackingsystem.Utilities.Global;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -41,10 +43,13 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
     LinearLayout emptyLayout;
     ArrayList<ExpensesDTO> addExpenseArray;
     String expenseDialogTitle;
+    double total_price = 0.0;
+    double trip_total_price = 0.0;
 
     public static int expenseFlag = 0;
     String time;
     private ArrayList<ExpensesDTO> expenseArray;
+    private int memberCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +98,16 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
 
         retriveMyExpense();
 
+        retriveTotalExpense();
 
+
+    }
+
+    private void retriveTotalExpense() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Completed Trip").child(Global.userPhone)
+                .child(time);
+        // TODO: 10/26/2019
+        //databaseReference
     }
 
     private void retriveMyExpense() {
@@ -103,6 +117,7 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
 
     @Override
     public void loadMemberList(ArrayList<MyTripDetailsDTO> memberList) {
+        this.memberCount = memberList.size();
         tv_memCount.setText(String.valueOf(memberList.size()));
 
         if (!memberList.isEmpty()) {
@@ -160,15 +175,29 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
                     createMyExpenseCustomDialog(expenseDialogTitle);
                 }
                 break;
+            case R.id.action_split_expense:
+                createSplitExpenseCustomDialog();
+
+
             default:
                 return true;
         }
         return true;
     }
 
+    private void createSplitExpenseCustomDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.split_expense_equal);
+        TextView tv_each_expense = dialog.findViewById(R.id.tv_each_expense);
+
+        String each_expense = String.valueOf(total_price / memberCount);
+        tv_each_expense.setText(each_expense);
+        dialog.show();
+
+    }
+
     private void createMyExpenseCustomDialog(String personName) {
         expenseFlag = 1;
-        double total_price = 0.0;
 
 
         final Dialog dialog = new Dialog(this);
@@ -210,7 +239,7 @@ public class MyTripDetailsView extends AppCompatActivity implements MyTripDetail
         Display d = m.getDefaultDisplay();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.width = d.getWidth() * 1;
-        /*lp.height = (int) (d.getHeight() * 0.7);*/
+        lp.height = (int) (d.getHeight() * 0.7);
 
         dialog.show();
 

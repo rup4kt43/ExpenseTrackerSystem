@@ -19,9 +19,7 @@ import com.example.expensetrackingsystem.MyExpenseHistory.ADAPTERS.MyExpenseHist
 import com.example.expensetrackingsystem.MyExpenseHistory.DTO.MyExpenseHisotryDTO;
 import com.example.expensetrackingsystem.MyExpenseHistory.INTERFACE.MyExpenseHistoryInterface;
 import com.example.expensetrackingsystem.MyExpenseHistory.PRESENTER.MyExpensePresenter;
-import com.example.expensetrackingsystem.MyTrip.VIEW.MyTripView;
 import com.example.expensetrackingsystem.R;
-import com.example.expensetrackingsystem.Utilities.Global;
 
 import java.util.ArrayList;
 
